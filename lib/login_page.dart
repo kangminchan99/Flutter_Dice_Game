@@ -10,6 +10,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  // value키를 사용해보기위해 텍스트 필드 하나를 삭제할 수 있는 기능 추가
+  bool emailField = true;
+
   final TextEditingController idController = TextEditingController();
   final TextEditingController pwController = TextEditingController();
 
@@ -57,19 +60,22 @@ class _LoginPageState extends State<LoginPage> {
                         child: Container(
                           padding: const EdgeInsets.all(30),
                           child: Column(children: [
+                            if (emailField)
+                              TextField(
+                                key: ValueKey(1),
+                                // controller: idController,
+                                decoration: const InputDecoration(
+                                    labelText: 'Enter "yeji"'),
+                                keyboardType: TextInputType.emailAddress,
+                              ),
                             TextField(
-                              controller: idController,
-                              decoration: const InputDecoration(
-                                  labelText: 'Enter "yeji"'),
-                              keyboardType: TextInputType.emailAddress,
-                            ),
-                            TextField(
-                              controller: pwController,
+                              key: ValueKey(2),
+                              // controller: pwController,
                               decoration: const InputDecoration(
                                   labelText: 'Enter Password'),
                               keyboardType: TextInputType.text,
                               // obscureText: true - 패스워드는 보안이 필요하므로 문자가 표시 되지 않게 해준다.
-                              obscureText: true,
+                              obscureText: false,
                             ),
                             const SizedBox(height: 15),
                             Row(
@@ -77,26 +83,30 @@ class _LoginPageState extends State<LoginPage> {
                               children: [
                                 IconButton(
                                     onPressed: () {
-                                      if (idController.text == 'yeji' &&
-                                          pwController.text == '1234') {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder:
-                                                    (BuildContext context) =>
-                                                        const DicePage()));
-                                      } else if (idController.text == 'yeji' &&
-                                          pwController.text != '1234') {
-                                        showSnackBar2(context);
-                                      } else if (idController.text != 'yeji' &&
-                                          pwController.text == '1234') {
-                                        showSnackBar3(context);
-                                      } else {
-                                        showSnackBar(context);
-                                      }
+                                      setState(() {
+                                        emailField = false;
+                                      });
+                                      // if (idController.text == 'yeji' &&
+                                      //     pwController.text == '1234') {
+                                      //   Navigator.push(
+                                      //       context,
+                                      //       MaterialPageRoute(
+                                      //           builder:
+                                      //               (BuildContext context) =>
+                                      //                   const DicePage()));
+                                      // } else if (idController.text == 'yeji' &&
+                                      //     pwController.text != '1234') {
+                                      //   showSnackBar2(context);
+                                      // } else if (idController.text != 'yeji' &&
+                                      //     pwController.text == '1234') {
+                                      //   showSnackBar3(context);
+                                      // } else {
+                                      //   showSnackBar(context);
+                                      // }
                                     },
                                     icon: const Icon(
-                                      Icons.arrow_forward,
+                                      // Icons.arrow_forward,
+                                      Icons.visibility_off_outlined,
                                       color: Colors.black,
                                       size: 30,
                                     )),
